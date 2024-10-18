@@ -1,0 +1,37 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
+// create db connection >>
+// we can also create a separate file for this and then import /use that file here
+
+mongoose
+  .connect(
+    "mongodb+srv://sanga2022:sanga2024@cluster0.0edft.mongodb.net/"
+  )
+  .then(() => console.log("MongoDB is Connected"))
+  .catch((error) => console.log(error));
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(
+  cors({
+    origin: " http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Cache-Control",
+      "Expires",
+      "Pragma",
+    ],
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
+app.use(express.json());
+
+app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`)); // all configuration is done now we need to listen to this particular port , now it is 5000
