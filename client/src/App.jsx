@@ -17,11 +17,8 @@ import CheckAuth from "./components/common/check-auth";
 import UnAuthPage from "./pages/unauth-page";
 
 function App() {
-  const isAuthenticated = true;
-  const user = {
-    name: "Sangam",
-    role: "user",
-  }; // dummy data
+  const isAuthenticated = false;
+  const user = null; // dummy data
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

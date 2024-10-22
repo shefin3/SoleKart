@@ -2,14 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const authRouter = require("./routes/auth/auth-routes");
 
 // create db connection >>
 // we can also create a separate file for this and then import /use that file here
 
 mongoose
-  .connect(
-    "mongodb+srv://sanga2022:sanga2024@cluster0.0edft.mongodb.net/"
-  )
+  .connect("mongodb+srv://sanga2022:sanga2024@cluster0.0edft.mongodb.net/")
   .then(() => console.log("MongoDB is Connected"))
   .catch((error) => console.log(error));
 
@@ -33,5 +32,6 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+app.use("api/auth", authRouter);
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`)); // all configuration is done now we need to listen to this particular port , now it is 5000
