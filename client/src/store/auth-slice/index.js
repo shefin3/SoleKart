@@ -1,17 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createHashRouter } from "react-router-dom";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
 const initialState = {
   isAuthenticated: false,
   isLoading: false,
   user: null,
 };
 
-export const registerUser = createHashRouter(
+export const registerUser = createAsyncThunk(
   "/auth/register",
-  async (FormData) => {
+  async (formData) => {
     const response = await axios.post(
       "http://localhost:5000/api/auth/register",
-      FormData,
+      formData,
       {
         withCredentials: true,
       }
@@ -28,12 +29,12 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser, pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = null;
         state.isAuthenticated = false;
       })
       .addCase(registerUser.rejected, (state, action) => {

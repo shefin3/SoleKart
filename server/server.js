@@ -32,6 +32,6 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-app.use("api/auth", authRouter);
+app.use("/api/auth", authRouter);
 
-app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`)); // all configuration is done now we need to listen to this particular port , now it is 5000
+app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
