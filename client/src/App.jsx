@@ -16,10 +16,16 @@ import ShoppingAccount from "./pages/shopping-view/account";
 import CheckAuth from "./components/common/check-auth";
 import UnAuthPage from "./pages/unauth-page";
 import { useSelector } from "react-redux";
+import { checkAuth } from "./store/auth-slice";
+import { useEffect } from "react";
 
 function App() {
- 
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
