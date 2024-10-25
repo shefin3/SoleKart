@@ -1,7 +1,8 @@
 const express = require("express");
 
 const {
-  handleImageUpload,addProduct,
+  handleImageUpload,
+  addProduct,
   editProduct,
   fetchAllProducts,
   deleteProduct,
