@@ -60,6 +60,7 @@ const loginUser = async (req, res) => {
       id: checkUser._id,
       role: checkUser.role,
       email: checkUser.email, // we need to pass key here
+      userName: checkUser.userName,
     },
     "CLIENT_SECRET_KEY",
     { expiresIn: "60m" }
@@ -72,6 +73,7 @@ const loginUser = async (req, res) => {
       email: checkUser.email,
       role: checkUser.role,
       id: checkUser._id,
+      userName: checkUser.userName,
     },
   });
   try {
@@ -92,7 +94,6 @@ const logoutUser = (req, res) => {
     message: "Logged Out successfully ",
   });
 };
-
 
 //auth middleware
 const authMiddleware = async (req, res, next) => {
