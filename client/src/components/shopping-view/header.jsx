@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
-import { Label } from "../ui/label";
 import { shoppingViewHeaderMenuItems } from "@/config";
 import {
   DropdownMenu,
@@ -20,9 +19,13 @@ function MenuItems() {
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Label className="text-sm font-medium cursor-pointer" key={menuItem.id}>
+        <Link
+          className="text-sm font-medium"
+          key={menuItem.id}
+          to={menuItem.path}
+        >
           {menuItem.label}
-        </Label>
+        </Link>
       ))}
     </nav>
   );
@@ -88,15 +91,15 @@ function ShoppingHeader() {
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
             <MenuItems />
-            <HeaderRightContent/>
+            <HeaderRightContent />
           </SheetContent>
         </Sheet>
         <div className="hidden lg:block">
           <MenuItems />
         </div>
-          <div className='hidden lg:block'>
-            <HeaderRightContent  />
-          </div>
+        <div className="hidden lg:block">
+          <HeaderRightContent />
+        </div>
       </div>
     </header>
   );

@@ -33,7 +33,6 @@ function App() {
   if (isLoading)
     return <Skeleton className="w-full h-full bg-black" />;
 
-  console.log(isLoading, user);
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
