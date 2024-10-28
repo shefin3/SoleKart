@@ -67,4 +67,5 @@ function ShoppingListing() {
     </div>
   );
 }
+
 export default ShoppingListing;
