@@ -1,3 +1,4 @@
+import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -22,10 +23,10 @@ function ShoppingProductTile({ product }) {
           <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
-              {product?.category}
+              {categoryOptionsMap[product?.category]}
             </span>
             <span className="text-[16px] text-muted-foreground">
-              {product?.brand}
+              {brandOptionsMap[product?.brand]}
             </span>
           </div>
           <div className="flex justify-between items-center mb-2">
