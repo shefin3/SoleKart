@@ -5,7 +5,7 @@ import axios from "axios";
 const initialState = {
   isLoading: false,
   productList: [],
-  productDetails : null
+  productDetails: null,
 };
 
 export const fetchAllFilteredProducts = createAsyncThunk(
@@ -36,11 +36,15 @@ export const fetchProductDetails = createAsyncThunk(
   }
 );
 
-
 const shoppingProductSlice = createSlice({
   name: "shoppingProducts",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductDetails: (state) => {
+      state.productDetails = null;
+    },
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllFilteredProducts.pending, (state, action) => {
@@ -54,7 +58,8 @@ const shoppingProductSlice = createSlice({
       .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.productList = [];
-      }).addCase(fetchProductDetails.pending, (state, action) => {
+      })
+      .addCase(fetchProductDetails.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
@@ -68,4 +73,5 @@ const shoppingProductSlice = createSlice({
   },
 });
 
+export const { setProductDetails } = shoppingProductSlice.actions;
 export default shoppingProductSlice.reducer;
