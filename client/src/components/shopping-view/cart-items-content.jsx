@@ -1,18 +1,44 @@
 import { Minus, Plus, Trash } from "lucide-react";
 import { Button } from "../ui/button";
-import { deleteCartItem } from "@/store/shop/cart-slice";
+import { deleteCartItem, updateCartQuantity } from "@/store/shop/cart-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
 
 function UserCartItemsContent({ cartItem }) {
-
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+
+  function handleUpdateQuantity(getCartItem, typeOfAction) {
+    dispatch(
+      updateCartQuantity({
+        userId: user?.id,
+        productId: getCartItem?.productId,
+        quantity:
+          typeOfAction === "plus"
+            ? getCartItem?.quantity + 1
+            : getCartItem?.quantity - 1,
+      })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        toast({
+          title: " item added to cart successfully",
+        });
+      }
+    });
+  }
 
   function handleCartItemDelete(getCartItem) {
     dispatch(
       deleteCartItem({ userId: user?.id, productId: getCartItem?.productId })
-    )
+    ).then((data) => {
+      if (data?.payload?.success) {
+        toast({
+          title: "Cart item is deleted successfully",
+        });
+      }
+    });
   }
 
   return (
@@ -29,6 +55,8 @@ function UserCartItemsContent({ cartItem }) {
             variant="outline"
             className="h-8 w-8 rounded-full"
             size="icon"
+            disabled={cartItem?.quantity === 1}
+            onClick={() => handleUpdateQuantity(cartItem, "minus")}
           >
             <Minus className="w-4 h-4" />
             <span className="sr-only">Decrease</span>
@@ -38,6 +66,7 @@ function UserCartItemsContent({ cartItem }) {
             variant="outline"
             className="h-8 w-8 rounded-full"
             size="icon"
+            onClick={() => handleUpdateQuantity(cartItem, "plus")}
           >
             <Plus className="w-4 h-4" />
             <span className="sr-only">Increase</span>
