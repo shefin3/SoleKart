@@ -8,9 +8,9 @@ const initialFormData = {
   status: "",
 };
 
-function AdminOrderDetailsView() {
+function ShoppingOrderDetailsView() {
   const [formData, setFormData] = useState(initialFormData);
-  
+
   function handleUpdateStatus(event) {
     event.preventDefault();
   }
@@ -61,31 +61,9 @@ function AdminOrderDetailsView() {
             </div>
           </div>
         </div>
-        <div>
-          <CommonForm
-            formControls={[
-              {
-                label: "Order Status",
-                name: "status",
-                componentType: "select",
-                options: [
-                  { id: "pending", label: "Pending" },
-                  { id: "inProcess", label: "In Process" },
-                  { id: "inShipping", label: "In Shipping" },
-                  { id: "delivered", label: "Delivered" },
-                  { id: "rejected", label: "Rejected" },
-                ],
-              },
-            ]}
-            formData={formData}
-            setFormData={setFormData}
-            buttonText={"Update Order Status"}
-            onSubmit={handleUpdateStatus}
-          />
-        </div>
       </div>
     </DialogContent>
   );
 }
 
-export default AdminOrderDetailsView;
+export default ShoppingOrderDetailsView;
