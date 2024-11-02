@@ -5,17 +5,18 @@ import UserCartItemsContent from "@/components/shopping-view/cart-items-content"
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { createNewOrder } from "@/store/shop/order-slice";
+import { useToast } from "@/hooks/use-toast";
 
 function ShoppingCheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
   const { approvalURL } = useSelector((state) => state.shopOrder);
-
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
   const dispatch = useDispatch();
   const [isPaymentStart, setIsPaymemntStart] = useState(false);
+  const { toast } = useToast();
 
-  console.log(currentSelectedAddress, "currentSelectedAddress");
+  console.log(cartItems, "cartItems");
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
@@ -30,6 +31,24 @@ function ShoppingCheckout() {
         )
       : 0;
   function handleInitiatePaypalPayment() {
+    //user will no under stand why the button is disabled , so show some kind of messages
+    // ! Now cart empty toast is not working , Fix it later
+    if (cartItems.length === 0) {
+      toast({
+        title: "Your cart is empty. Please add items to proceed",
+        variant: "destructive",
+      });
+
+      return;
+    }
+    if (currentSelectedAddress === null) {
+      toast({
+        title: "Please select one address to proceeed",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const orderData = {
       userId: user?.id,
       cartId: cartItems?._id,
@@ -60,6 +79,7 @@ function ShoppingCheckout() {
       paymentId: "",
       payerId: "",
     };
+
     dispatch(createNewOrder(orderData)).then((data) => {
       console.log(data, "orderData");
       if (data?.payload?.success) {

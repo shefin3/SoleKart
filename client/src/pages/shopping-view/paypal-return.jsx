@@ -19,7 +19,7 @@ function PaypalReturnPage() {
         if (data?.payload?.success) {
           sessionStorage.removeItem("currentOrderId");
           window.location.href = "/shop/payment-success";
-        }4
+        }
         
       });
     }
