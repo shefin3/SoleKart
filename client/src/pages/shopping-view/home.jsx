@@ -103,7 +103,7 @@ function ShoppingHome() {
 
     return () => clearInterval(timer);
   },[featureImageList]);
-  
+
   useEffect(() => {
     dispatch(
       fetchAllFilteredProducts({
@@ -120,6 +120,8 @@ function ShoppingHome() {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
+  console.log(featureImageList,'featureImageList');
+  
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
