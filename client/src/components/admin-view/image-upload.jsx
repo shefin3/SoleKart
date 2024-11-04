@@ -15,6 +15,7 @@ function ProductImageUpload({
   imageLoadingState,
   setImageLoadingState,
   isEditMode,
+  isCustomStyling = false,
 }) {
   const inputRef = useRef(null);
   console.log(isEditMode, "isEditMode");
@@ -68,7 +69,10 @@ function ProductImageUpload({
   }, [imageFile]);
 
   return (
-    <div className="w-full  mt-4max-w-md mx-auto">
+    <div
+      className={`w-full  mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}
+    >
+      {" "}
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
       <div
         onDragOver={handleDragOver}

@@ -38,6 +38,16 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+        
+      <Route
+          path="/"
+          element={
+            <CheckAuth
+              isAuthenticated={isAuthenticated}
+              user={user}
+            ></CheckAuth>
+          }
+        />
         {/* parent (Nested Route)*/}
         <Route
           path="/auth"
