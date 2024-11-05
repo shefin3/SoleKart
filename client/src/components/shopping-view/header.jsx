@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { logoutUser } from "@/store/auth-slice";
+import { logoutUser, resetTokenAndCredentials } from "@/store/auth-slice";
 import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
@@ -72,7 +72,10 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
+    dispatch(resetTokenAndCredentials());
+    sessionStorage.clear();
+    navigate("/auth/login");
   }
   useEffect(() => {
     dispatch(fetchCartItems(user?.id));
@@ -80,28 +83,28 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-    <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
-      <Button
-        onClick={() => setOpenCartSheet(true)}
-        variant="outline"
-        size="icon"
-        className="relative"
-      >
-        <ShoppingCart className="w-6 h-6" />
-        <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
-          {cartItems?.items?.length || 0}
-        </span>
-        <span className="sr-only">User cart</span>
-      </Button>
-      <UserCartWrapper
-        setOpenCartSheet={setOpenCartSheet}
-        cartItems={
-          cartItems && cartItems.items && cartItems.items.length > 0
-            ? cartItems.items
-            : []
-        }
-      />
-    </Sheet>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <Button
+          onClick={() => setOpenCartSheet(true)}
+          variant="outline"
+          size="icon"
+          className="relative"
+        >
+          <ShoppingCart className="w-6 h-6" />
+          <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
+            {cartItems?.items?.length || 0}
+          </span>
+          <span className="sr-only">User cart</span>
+        </Button>
+        <UserCartWrapper
+          setOpenCartSheet={setOpenCartSheet}
+          cartItems={
+            cartItems && cartItems.items && cartItems.items.length > 0
+              ? cartItems.items
+              : []
+          }
+        />
+      </Sheet>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
