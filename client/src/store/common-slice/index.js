@@ -12,7 +12,6 @@ export const getFeatureImages = createAsyncThunk(
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/api/common/feature/get`
     );
-
     return response.data;
   }
 );
@@ -24,8 +23,17 @@ export const addFeatureImage = createAsyncThunk(
       `${import.meta.env.VITE_API_URL}/api/common/feature/add`,
       { image }
     );
-
     return response.data;
+  }
+);
+
+export const deleteFeatureImage = createAsyncThunk(
+  "/order/deleteFeatureImage",
+  async (id) => {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/common/feature/delete/${id}`
+    );
+    return { data: response.data, id };
   }
 );
 
@@ -45,6 +53,19 @@ const commonSlice = createSlice({
       .addCase(getFeatureImages.rejected, (state) => {
         state.isLoading = false;
         state.featureImageList = [];
+      })
+      .addCase(deleteFeatureImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteFeatureImage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // Filter out the deleted image by its ID
+        state.featureImageList = state.featureImageList.filter(
+          (image) => image.id !== action.payload.id
+        );
+      })
+      .addCase(deleteFeatureImage.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
