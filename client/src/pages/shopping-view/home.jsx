@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { SiAdidas, SiNewbalance, SiNike, SiPuma, SiReebok } from "react-icons/si";
 
 import {
   Airplay,
@@ -28,24 +29,21 @@ import { addToCart } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { getFeatureImages } from "@/store/common-slice";
+import { GiFemale, GiMale } from "react-icons/gi";
 
 const categoriesWithIcon = [
-  { id: "men", label: "Men", icon: ShirtIcon },
-  { id: "women", label: "Women", icon: CloudLightning },
+  { id: "men", label: "Men", icon: GiMale },
+  { id: "women", label: "Women", icon: GiFemale },
   { id: "kids", label: "Kids", icon: BabyIcon },
-  { id: "accessories", label: "Accessories", icon: WatchIcon },
-  { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
 ];
 
 const brandsWithIcon = [
-  { id: "nike", label: "Nike", icon: Shirt },
-  { id: "adidas", label: "Adidas", icon: WashingMachine },
-  { id: "puma", label: "Puma", icon: ShoppingBasket },
-  { id: "levi", label: "Levi's", icon: Airplay },
-  { id: "zara", label: "Zara", icon: Images },
-  { id: "h&m", label: "H&M", icon: Heater },
+  { id: "nike", label: "Nike", icon: SiNike},
+  { id: "adidas", label: "Adidas", icon: SiAdidas },
+  { id: "puma", label: "Puma", icon: SiPuma },
+  { id: "reebok", label: "Reebok", icon: SiReebok },
+  { id: "newbalance", label: "New Balance", icon: SiNewbalance },
 ];
-
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -60,7 +58,6 @@ function ShoppingHome() {
   const { featureImageList } = useSelector((state) => state.commonFeature);
 
   const { user } = useSelector((state) => state.auth);
-
 
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters");
@@ -102,7 +99,7 @@ function ShoppingHome() {
     }, 3000);
 
     return () => clearInterval(timer);
-  },[featureImageList]);
+  }, [featureImageList]);
 
   useEffect(() => {
     dispatch(
@@ -115,17 +112,17 @@ function ShoppingHome() {
 
   console.log(productList, "productList");
 
-  
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
 
-  console.log(featureImageList,'featureImageList');
-  
+  console.log(featureImageList, "featureImageList");
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-      {featureImageList && featureImageList.length > 0
+       
+        {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
               <img
                 src={slide?.image}
@@ -142,7 +139,9 @@ function ShoppingHome() {
           size="icon"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + featureImageList.length) % featureImageList.length
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList.length) %
+                featureImageList.length
             ) % featureImageList.length
           }
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
@@ -153,7 +152,9 @@ function ShoppingHome() {
           variant="outline"
           size="icon"
           onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length)
+            setCurrentSlide(
+              (prevSlide) => (prevSlide + 1) % featureImageList.length
+            )
           }
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
         >
@@ -165,7 +166,7 @@ function ShoppingHome() {
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
                 onClick={() =>
@@ -186,7 +187,7 @@ function ShoppingHome() {
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {brandsWithIcon.map((brandItem) => (
               <Card
                 onClick={() => handleNavigateToListingPage(brandItem, "brand")}
