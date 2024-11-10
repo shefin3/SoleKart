@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
@@ -28,19 +28,21 @@ function App() {
     (state) => state.auth
   );
   const dispatch = useDispatch();
+  const location = useLocation(); // Get the current location (URL path)
 
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem('token'))
+    const token = JSON.parse(sessionStorage.getItem('token'));
     dispatch(checkAuth(token));
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-full h-full bg-black" />;
+  if (isLoading && location.pathname !== "/auth/login") {
+    return <Skeleton className="w-full h-full bg-black" />; // Show loading on all routes except /auth/login
+  }
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        
-      <Route
+        <Route
           path="/"
           element={
             <CheckAuth
@@ -58,9 +60,7 @@ function App() {
             </CheckAuth>
           }
         >
-          {/* child */}
           <Route path="login" element={<AuthLogin />} />
-          {/* child */}
           <Route path="register" element={<AuthRegister />} />
         </Route>
         <Route
@@ -91,8 +91,6 @@ function App() {
           <Route path="paypal-return" element={<PaypalReturnPage />} />
           <Route path="payment-success" element={<PaymentSuccessPage />} />
           <Route path="search" element={<SearchProducts />} />
-
-          {/* <Route path="/unauth-page" element={<UnAuthPage />} /> */}
         </Route>
         <Route path="/unauth-page" element={<UnAuthPage />} />
         <Route path="*" element={<NotFound />} />
